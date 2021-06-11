@@ -14,7 +14,8 @@ player = Player()
 
 card.generate_card()
 board.get_list_player_card(2)
-board.player_on_table
+board.player_on_table.append('p1')
+board.player_on_table.append('p2')
 
 p1.player_card = board.list_player_card[0]
 p2.player_card = board.list_player_card[1]
@@ -70,7 +71,12 @@ board.set_score(p1)
 board.set_score(p2)
 print(p1.score)
 print(p2.score)
-
 print("--------------------------------")
+# Show result
+if p1.score > p2.score:
+    print('Player 1 Win')
+else:
+    print('Player 2 Win')
+
 
 
