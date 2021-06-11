@@ -10,6 +10,7 @@ class Card():
                 card = str(i) + j
                 self.card_deck.append(card)
 
+
     @staticmethod
     def check_high_card(list_card):
         temp = b.get_list_card_number(list_card)

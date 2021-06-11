@@ -5,21 +5,23 @@ from core.card import Card
 card = Card()
 
 class Player:
-    player_card = []
-    player_chip = 0
-    score = 0
+    stt = 0    
+    def __init__(self):
+        self.id = Player.stt
+        self.player_card = []
+        self.player_chip = 4000
+        self.score = 0
+        Player.stt +=1
 
-    @staticmethod
-    def bet(player, number, board):
-        player.player_chip -= number
+        
+    def bet(self, number, board):
+        self.player_chip -= number
         board.chip_on_table += number
 
-    @staticmethod
     def check():
         pass
 
-    @staticmethod
-    def fold(player, board):
-        board.player_on_table.remove(player)
+    def fold(self, board):
+        board.player_on_table.remove(self)
         
     
