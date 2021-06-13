@@ -1,7 +1,10 @@
+# from basic import all_players_action
 from core.board import Board
 from core.card import Card
 from player import player1 as p1
 from player import player2 as p2
+from random import randint
+import math
 
 # player_number = int(input("Enter number of players: "))
 # chip_total = int(input("Enter amount of chips: "))
@@ -9,78 +12,78 @@ from player import player2 as p2
 card = Card()
 board = Board()
 
-card.generate_card()
+player_1 = p1.player_1
+player_2 = p2.player_2
 
-p1_data = p1.player_1
-p2_data = p2.player_2
+board.player_on_table = [player_1, player_2]
 
-board.player_on_table.append(p1_data)
-board.player_on_table.append(p2_data)
+# Start game
+print("""
+--------------------------------
+Welcome to Poker Game !
+Let's get started ...
+--------------------------------
+Here is all of your cards: 
+""")
 
-for p in board.player_on_table:
-    print(card.get_card())
-    p.set_card(card.get_card())
+round = 1
+button_position = randint(0, len(board.player_on_table) - 1)
+while True:
+    # Start game
+    print('Round:', round)
+    board.init_board(card, [player_1, player_2], button_position)
+    for p in board.player_on_table:
+        if p.player_chip > 0:
+            p.set_card(card.get_card())
+        else:
+            board.player_on_table.remove(p)
 
-print(p1_data.player_card)
-print(p2_data.player_card)
+    if (len(board.player_on_table) > 1):
+        for i in range(len(board.player_on_table)):
+            print("Player", i + 1, ":", *board.player_on_table[i].player_card, '-', board.player_on_table[i].player_chip)
 
-# p1.player_card = board.list_player_card[0]
-# p2.player_card = board.list_player_card[1]
-# p1.player_chip = 1000 / 2
-# p2.player_chip = 1000 / 2
+        print("--------------------------------")
+        # Pre flop
+        board.show_board()
+        board.set_score_all_players(card)
+        p1.action(board)
+        p2.action(board)
+        print("--------------------------------")
+        # Flop
+        board.deal_card(3, card)
+        board.show_board()
+        board.set_score_all_players(card)
+        print("--------------------------------")
+        # Turn
+        board.deal_card(1, card)
+        board.show_board()
+        board.set_score_all_players(card)
+        print("--------------------------------")
+        # River
+        board.deal_card(1, card)
+        board.show_board()
+        board.set_score_all_players(card)
+        print("--------------------------------")
+        
+        # Check winner
+        winner = []
+        winner.append(board.player_on_table[0])
+        max_score = board.player_on_table[0].score
+        for p in board.player_on_table:
+            if p.score > max_score:
+                winner.clear()
+                winner.append(p)
+                max_score = p.score
+            elif p.score == max_score:
+                winner.append(p)
+        for p in winner:
+            p.player_chip += math.floor(board.chip_on_table / len(winner))
+        round += 1
+        if button_position == (len(board.player_on_table) - 1):
+            button_position = 0
+        else:
+            button_position += 1
+    else:
+        break
 
-# # Start game
-# print("""
-# --------------------------------
-# Welcome to Poker Game !
-# Let's get started ...
-# --------------------------------
-# Here is all of your cards: 
-# """)
-
-# # Deal card to players
-# for i in range(2):
-#     print("Player", i + 1, ":", *board.list_player_card[i])
-
-# # Show cards on table
-# print("--------------------------------")
-# # Pre flop
-# print("Actions: ")
-# board.set_score(p1)
-# board.set_score(p2)
-# print(p1.score)
-# print(p2.score)
-# print("p1 chip:", p1.player_chip)
-# p1.bet(p1, 300, board)
-# print("chip on table: ", board.chip_on_table)
-# print("p1 chip:", p1.player_chip)
-# print("--------------------------------")
-# # Flop
-# board.deal_card(3)
-# print("Actions: ")
-# board.set_score(p1)
-# board.set_score(p2)
-# print(p1.score)
-# print(p2.score)
-# print("--------------------------------")
-# # Turn
-# board.deal_card(1)
-# print("Actions: ")
-# board.set_score(p1)
-# board.set_score(p2)
-# print(p1.score)
-# print(p2.score)
-# print("--------------------------------")
-# # River
-# board.deal_card(1)
-# print("Actions: ")
-# board.set_score(p1)
-# board.set_score(p2)
-# print(p1.score)
-# print(p2.score)
-# print("--------------------------------")
-# # Show result
-# if p1.score > p2.score:
-#     print('Player 1 Win')
-# else:
-#     print('Player 2 Win')
+print(board.player_on_table[0].name, 'is the winner')

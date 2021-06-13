@@ -15,4 +15,3 @@ def get_list_number(list):
     for number in list:
         temp.append(list.count(number))
     return temp
-    

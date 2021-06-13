@@ -11,13 +11,6 @@ class Card():
             self.card_deck.remove(item)
         return player_card
 
-    def generate_card(self):
-        for i in range(1, 14):
-            for j in self.list_suit:
-                card = str(i) + j
-                self.card_deck.append(card)
-
-
     @staticmethod
     def check_high_card(list_card):
         temp = b.get_list_card_number(list_card)
