@@ -1,8 +1,15 @@
 import basic as b
+from random import sample
 
 class Card():
     card_deck = []
     list_suit = ['H', 'D', 'S', 'C']  # H:Heart, D:Diamond, S:Spade, C:Club
+
+    def get_card(self):
+        player_card = sample(self.card_deck, 2)
+        for item in player_card:
+            self.card_deck.remove(item)
+        return player_card
 
     def generate_card(self):
         for i in range(1, 14):

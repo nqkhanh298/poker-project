@@ -3,24 +3,13 @@ from random import sample
 
 card = Card()
 
-
 class Board:
     card_on_table = []
-    player_on_table = []
-    chip_on_table = 0
-    list_player_card = []
     list_player_chip = []
 
-    def __init__(self, chip_total, player_number):
-        self.chip_total = chip_total
-        self.player_number = player_number
-
-    def get_list_player_card(self, player_number):
-        for _ in range(player_number):
-            player_card = sample(card.card_deck, 2)
-            self.list_player_card.append(player_card)
-            for item in player_card:
-                card.card_deck.remove(item)
+    def __init__(self):
+        self.chip_on_table = 0
+        self.player_on_table = []
 
     def deal_card(self, number):
         new_card = sample(card.card_deck, number)
@@ -41,3 +30,9 @@ class Board:
         elif card.check_two_pair(total_card): player.score = card.check_two_pair(total_card)
         elif card.check_pair(total_card): player.score = card.check_pair(total_card)
         else: player.score = card.check_high_card(total_card)
+    
+    def set_chip(self, chip):
+        self.chip_on_table += chip
+    
+    def eliminate_player(self, player):
+        self.player_on_table.remove(player)

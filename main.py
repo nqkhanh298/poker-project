@@ -1,20 +1,27 @@
 from core.board import Board
 from core.card import Card
-from core.player import Player
 from player import player1 as p1
-from player.player2 import Player2 as p2
+from player import player2 as p2
 
 # player_number = int(input("Enter number of players: "))
 # chip_total = int(input("Enter amount of chips: "))
 
 card = Card()
-board = Board(2, 1000)
-# # chip = Chip()
+board = Board()
 
-# card.generate_card()
-# board.get_list_player_card(2)
-# board.player_on_table.append('p1')
-# board.player_on_table.append('p2')
+card.generate_card()
+
+board.player_on_table.append(p1.player_1)
+board.player_on_table.append(p2.player_2)
+
+p1_data = p1.get_player()
+p2_data = p2.get_player()
+
+for p in board.player_on_table:
+    p.player_card = card.get_card()
+
+print(p1_data.player_card)
+
 
 # p1.player_card = board.list_player_card[0]
 # p2.player_card = board.list_player_card[1]
@@ -76,13 +83,3 @@ board = Board(2, 1000)
 #     print('Player 1 Win')
 # else:
 #     print('Player 2 Win')
-
-board.player_on_table.append(p1.player_01)
-board.player_on_table.append(p1.player_02)
-board.player_on_table.append(p1.player_03)
-board.player_on_table.append(p1.player_04)
-
-print(board.player_on_table[0].id)
-print(board.player_on_table[1].id)
-print(board.player_on_table[2].id)
-print(board.player_on_table[3].id)

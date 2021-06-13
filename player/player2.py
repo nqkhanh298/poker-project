@@ -1,6 +1,6 @@
 import sys
+from core import player
 sys.path.append("..") # Adds higher directory to python modules path.
 from core.player import Player
 
-class Player2(Player):
-    pass
+player_2 = Player()
