@@ -22,6 +22,15 @@ class Player:
             'score': self.score,
         }
         return player_data
+    
+    def set_card(self, card):
+        self.player_card = card
+
+    def set_chip(self, chip):
+        self.player_chip = chip
+    
+    def set_card(self, card):
+        self.card = card
 
     def bet(self, number):
         self.player_chip -= number

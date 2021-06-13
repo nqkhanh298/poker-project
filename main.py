@@ -11,17 +11,18 @@ board = Board()
 
 card.generate_card()
 
-board.player_on_table.append(p1.player_1)
-board.player_on_table.append(p2.player_2)
+p1_data = p1.player_1
+p2_data = p2.player_2
 
-p1_data = p1.get_player()
-p2_data = p2.get_player()
+board.player_on_table.append(p1_data)
+board.player_on_table.append(p2_data)
 
 for p in board.player_on_table:
-    p.player_card = card.get_card()
+    print(card.get_card())
+    p.set_card(card.get_card())
 
 print(p1_data.player_card)
-
+print(p2_data.player_card)
 
 # p1.player_card = board.list_player_card[0]
 # p2.player_card = board.list_player_card[1]
