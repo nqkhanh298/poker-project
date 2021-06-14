@@ -23,7 +23,7 @@ class Player:
         }
         return player_data
     
-    def set_card(self, card):
+    def set_playercard(self, card):
         self.player_card = card
 
     def set_chip(self, chip):

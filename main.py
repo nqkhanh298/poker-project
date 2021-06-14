@@ -19,7 +19,7 @@ board.player_on_table.append(p2_data)
 
 for p in board.player_on_table:
     print(card.get_card())
-    p.set_card(card.get_card())
+    p.set_playercard(card.get_card())
 
 print(p1_data.player_card)
 print(p2_data.player_card)
