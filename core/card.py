@@ -11,99 +11,153 @@ class Card():
             self.card_deck.remove(item)
         return player_card
 
-    @staticmethod
-    def check_high_card(list_card):
+    def check_high_card(self, list_card, j=5):
+        score = 0
         temp = b.get_list_card_number(list_card)
-        for i in range(len(temp)):
-            temp[i] = int(temp[i])
-        if (temp.count(1) == 1): 
-            return 13
-        return int(max(temp)) - 1
+        temp = sorted(temp, reverse=True)
+        if(temp.count(1) == 1):
+            score += 14
+            for i in range(4):
+                temp[i] = int(temp[i])
+                score += temp[i]
+        else:
+            for i in range(j):
+                temp[i] = int(temp[i])
+                score += temp[i]
+        return score
 
-    @staticmethod
-    def check_pair(list_card):
+    def check_pair(self, list_card):
+        score = 0
+        c = 2
+        list_index = []
         temp = b.get_list_card_number(list_card)
         list_number =  b.get_list_number(temp)
         if(list_number.count(2) == 2):
-            for number in temp:
-                if(temp.count(number) == 2):
-                    if(int(number) == 1): 
-                        return 26
+            for i in range(len(temp)):
+                if(temp.count(temp[i]) == 2):
+                    if(int(temp[i]) == 1): 
+                        score += 88
                     else: 
-                        return (int(number) + 12)
-        return 0
+                        score += (c*(int(temp[i]) +28))
+                    list_index.append(list_card[i])
+            for index in list_index:
+                list_card.remove(index)
+            if (len(list_card) > 2):
+                score += self.check_high_card(list_card, len(list_card) - 2)
+        print('pair score:', score)
+        return score
 
-    @staticmethod
-    def check_two_pair(list_card):
+    def check_two_pair(self, list_card):
+        score = 0
+        c = 3
         temp = b.get_list_card_number(list_card)
         list_number =  b.get_list_number(temp)
-        list_score = []
+        list_index = []
         if(list_number.count(2) >= 4):
-            for number in temp:
+            for i in range(len(temp)):
+                number = temp[i]
                 if(temp.count(number) == 2):
                     if(int(number) == 1): 
-                        list_score.append(39)
-                    else: list_score.append(int(number) + 25)
-        if(list_score): 
-            return max(list_score)
-        return 0
+                        score += 161
+                    else:
+                        score += (c*(int(number)+40)-1)
+                    list_index.append(list_card[i])
+            for index in list_index:
+                list_card.remove(index)
+            if (len(list_card) > 4):
+                score += self.check_high_card(list_card, len(list_card) - 4)
+        return score
     
-    @staticmethod
-    def check_set(list_card):
+    def check_set(self, list_card):
         temp = b.get_list_card_number(list_card)
         list_number =  b.get_list_number(temp)
+        list_index = []
+        score = 0
+        c = 4
         if(list_number.count(3) == 3 and list_number.count(2) == 0):
-            for number in temp:
+            for i in range(len(temp)):
+                number = temp[i]
                 if(temp.count(number) == 3):
                     if(int(number) == 1): 
-                        return 52
+                        score += 380
                     else: 
-                        return (int(number) + 38)
-        return 0
+                        score += (c*(int(number)+81))
+                list_index.append(list_card[i])
+            for index in list_index:
+                list_card.remove(index)
+            if (len(list_card) > 2):
+                score += self.check_high_card(list_card, len(list_card) - 2)
+        return score
 
-    @staticmethod
-    def check_quad(list_card):
+    def check_quad(self, list_card):
         temp = b.get_list_card_number(list_card)
         list_number =  b.get_list_number(temp)
+        score = 0
+        c = 7
+        list_index = []
         if(list_number.count(4) == 4):
-            for number in temp:
+            for i in range(len(temp)):
+                number = temp[i]
                 if(temp.count(number) == 4):
                     if(int(number) == 1): 
-                        return 102
+                        score += 2214
                     else: 
-                        return (int(number) + 88)
-        return 0
+                        score += (c*(int(number)+302)+2)
+                list_index.append(list_card[i])
+            for index in list_index:
+                list_card.remove(index)
+            if (len(list_card) > 1):
+                score += self.check_high_card(list_card, len(list_card) - 1)
+        return score
     
-    @staticmethod
-    def check_full_house(list_card):
+    def check_full_house(self, list_card):
         temp = b.get_list_card_number(list_card)
         list_number =  b.get_list_number(temp)
+        score = 0
+        c = 15
         if(list_number.count(3) == 3 and list_number.count(2) == 2):
             for number in temp:
                 if(temp.count(number) == 3):
                     if(int(number) == 1): 
-                        return 89
+                        score += 2310
                     else: 
-                        return (int(number) + 75)
-        return 0
+                        score += ((int(number) + 140) * c)
+                if(temp.count(number) == 2):
+                    if(int(number) == 1): 
+                        score += 14
+                    else: 
+                        score += int(number)
+        return score
     
-    @staticmethod
-    def check_flush(list_card):
+    def check_flush(self, list_card):
         temp1 = b.get_list_card_suit(list_card)
         temp2 = b.get_list_card_number(list_card)
-        list_score = []
+        list_remove = []
+        score = 0
+        c = 6
         for suit in ['H', 'D', 'S', 'C']:
             if (temp1.count(suit) >= 5):
-                for i in range(len(list_card)):
-                    if list_card[i][-1] == suit:
-                        if temp2[i] == 1: list_score.append(76)
-                        else: list_score.append(int(temp2[i]) + 62)
-        if(list_score):
-            return max(list_score)
-        return 0
+                for i in range(len(temp1)):
+                    if (temp1[i] != suit):
+                        index = temp2[i]
+                        list_remove.append(index)
+                for item in list_remove:
+                    temp2.remove(item)
+                temp2 = sorted(temp2, reverse=True)
+                if(temp2.count(1) == 1):
+                    score += 539
+                    for i in range(4):
+                        temp2[i] = int(temp2[i])
+                        score += ((temp2[i]+76)*6 -1)
+                else:
+                    for i in range(5):
+                        temp2[i] = int(temp2[i])
+                        score += ((temp2[i]+76)*6 -1)
+        return score
 
-    @staticmethod
-    def check_straight(list_card):
+    def check_straight(self, list_card):
+        score = 0
+        c = 5
         temp = b.get_list_card_number(list_card)
         for i in range(len(temp)):
             temp[i] = int(temp[i])
@@ -111,15 +165,16 @@ class Card():
         if(len(list_sorted) >= 5):
             for i in range(len(list_sorted) - 4):
                 if(list_sorted[i] == list_sorted[i + 4] - 4):
-                    return list_sorted[i] + 52
+                    score += (c*(list_sorted[i] + 79) + 1)
                 elif (list_sorted[0]== list_sorted[i + 1] - 9 == list_sorted[i + 4] - 12):
-                    return 63
-        return 0
+                    score += 446
+        return score
     
-    @staticmethod
-    def check_straight_flush(list_card):
+    def check_straight_flush(self, list_card):
         temp1 = b.get_list_card_suit(list_card)
         temp = b.get_list_card_number(list_card)
+        score = 0
+        c = 9
         for suit in ['H', 'D', 'S', 'C']:
             if (temp1.count(suit) >= 5):
                 for i in range(len(temp)):
@@ -128,10 +183,10 @@ class Card():
                 if(len(list_sorted) >= 5):
                     for i in range(len(list_sorted) - 4):
                         if(list_sorted[i] == list_sorted[i + 4] - 4):
-                            return list_sorted[i] + 102
+                            score += (c*(list_sorted[i] + 268) + 4)
                         elif (list_sorted[0]== list_sorted[i + 1] - 9 == list_sorted[i + 4] - 12):
-                            return 113
-        return 0
+                            score += 2506
+        return score
 
 
     

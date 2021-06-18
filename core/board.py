@@ -46,8 +46,7 @@ class Board:
     def set_score_all_players(self, card):
         for p in self.player_on_table:
             self.set_score(p, card)
-            print(p.player_card)
-            print(p.score)
+            print('score:', p.score)
 
     def set_score(self, player, card):
         player.score = 0

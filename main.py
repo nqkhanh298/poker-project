@@ -16,10 +16,8 @@ def turn(button):
     while (i - button) < button or board.player_on_table[(i+1) % len(board.player_on_table)].checkData():
         i += 1
         if board.player_on_table[i % len(board.player_on_table)].id == 0:
-            print("1")
             p1.action(board)
         elif board.player_on_table[i % len(board.player_on_table)].id == 1:
-            print("2")
             p2.action(board)
     # print("Player:", Player.chip_basic)
     Player.reset(board.player_on_table)
